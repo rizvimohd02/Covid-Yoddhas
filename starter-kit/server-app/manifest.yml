@@ -1,5 +1,5 @@
 applications:
-- name: community_MR08Jul
+- name: community_MR09Jul
   command: npm start
   path: .
   memory: 128M

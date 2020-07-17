@@ -135,18 +135,18 @@ app.post('/api/message', (req, res) => {
  *
  * The query string may contain the following qualifiers:
  * 
- * - type
+ * - place
  * - name
  * - userID
  *
  * A list of resource objects will be returned (which can be an empty list)
  */
 app.get('/api/resource', (req, res) => {
-  const type = req.query.type;
+  const place = req.query.place;
   const name = req.query.name;
   const userID = req.query.userID;
   cloudant
-    .find(type, name, userID)
+    .find(place, name, userID)
     .then(data => {
       if (data.statusCode != 200) {
         res.sendStatus(data.statusCode)
@@ -162,42 +162,41 @@ app.get('/api/resource', (req, res) => {
  *
  * The body must contain:
  * 
- * - type
+ * - place
  * - name
  * - contact
  * - userID
  *
  * The body may also contain:
  * 
- * - description
- * - quantity (which will default to 1 if not included)
+ * - emailid
+ * - person (which will default to 1 if not included)
  * 
  * The ID and rev of the resource will be returned if successful
  */
-let types = ["Food", "Other", "Help"]
+//let places = ["Food", "Other", "Help"]
 app.post('/api/resource', (req, res) => {
-  if (!req.body.type) {
+  if (!req.body.place) {
     return res.status(422).json({ errors: "Type of item must be provided"});
   }
-  if (!types.includes(req.body.type)) {
-    return res.status(422).json({ errors: "Type of item must be one of " + types.toString()});
-  }
+ // if (!places.includes(req.body.place)) {
+ //   return res.status(422).json({ errors: "Type of item must be one of " + places.toString()});
+  //}
   if (!req.body.name) {
     return res.status(422).json({ errors: "Name of item must be provided"});
   }
   if (!req.body.contact) {
     return res.status(422).json({ errors: "A method of conact must be provided"});
   }
-  const type = req.body.type;
+  const place = req.body.place;
   const name = req.body.name;
-  const description = req.body.description || '';
+  const emailid = req.body.emailid || '';
   const userID = req.body.userID || '';
-  const quantity = req.body.quantity || 1;
-  const location = req.body.location || '';
+  const person = req.body.person || 1;
   const contact = req.body.contact;
 
   cloudant
-    .create(type, name, description, quantity, location, contact, userID)
+    .create(place, name, emailid, person, contact, userID)
     .then(data => {
       if (data.statusCode != 201) {
         res.sendStatus(data.statusCode)
@@ -218,16 +217,15 @@ app.post('/api/resource', (req, res) => {
  */
 
 app.patch('/api/resource/:id', (req, res) => {
-  const type = req.body.type || '';
+  const place = req.body.place || '';
   const name = req.body.name || '';
-  const description = req.body.description || '';
+  const emailid = req.body.emailid || '';
   const userID = req.body.userID || '';
-  const quantity = req.body.quantity || '';
-  const location = req.body.location || '';
+  const person = req.body.person || '';
   const contact = req.body.contact || '';
 
   cloudant
-    .update(req.params.id, type, name, description, quantity, location, contact, userID)
+    .update(req.params.id, place, name, emailid, person, contact, userID)
     .then(data => {
       if (data.statusCode != 200) {
         res.sendStatus(data.statusCode)

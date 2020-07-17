@@ -166,6 +166,7 @@ app.get('/api/resource', (req, res) => {
  * - name
  * - contact
  * - userID
+ * - datetime
  *
  * The body may also contain:
  * 
@@ -188,15 +189,19 @@ app.post('/api/resource', (req, res) => {
   if (!req.body.contact) {
     return res.status(422).json({ errors: "A method of conact must be provided"});
   }
+  if (!req.body.datetime) {
+    return res.status(422).json({ errors: "Date and Time must be provided"});
+  }
   const place = req.body.place;
   const name = req.body.name;
   const emailid = req.body.emailid || '';
   const userID = req.body.userID || '';
   const person = req.body.person || 1;
   const contact = req.body.contact;
+  const datetime = req.body.datetime;
 
   cloudant
-    .create(place, name, emailid, person, contact, userID)
+    .create(place, name, emailid, person, contact, userID, datetime)
     .then(data => {
       if (data.statusCode != 201) {
         res.sendStatus(data.statusCode)
@@ -223,9 +228,10 @@ app.patch('/api/resource/:id', (req, res) => {
   const userID = req.body.userID || '';
   const person = req.body.person || '';
   const contact = req.body.contact || '';
+  const datetime = req.body.datetime || '';
 
   cloudant
-    .update(req.params.id, place, name, emailid, person, contact, userID)
+    .update(req.params.id, place, name, emailid, person, contact, userID, datetime)
     .then(data => {
       if (data.statusCode != 200) {
         res.sendStatus(data.statusCode)

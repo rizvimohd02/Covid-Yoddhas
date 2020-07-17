@@ -146,11 +146,11 @@ function deleteById(id, rev) {
  * @param {String} person - the person available 
  * @param {String} contact - the contact info 
  * @param {String} userID - the ID of the user 
- * 
+ * @param {String} datetime - the ID of the user
  * @return {Promise} - promise that will be resolved (or rejected)
  * when the call to the DB completes
  */
-function create(place, name, emailid, person, contact, userID) {
+function create(place, name, emailid, person, contact, userID, datetime) {
     return new Promise((resolve, reject) => {
         let itemId = uuidv4();
         let whenCreated = Date.now();
@@ -163,6 +163,7 @@ function create(place, name, emailid, person, contact, userID) {
             person: person,
             contact: contact,
             userID: userID,
+            datetime: datetime,
             whenCreated: whenCreated
         };
         db.insert(item, (err, result) => {
@@ -189,11 +190,11 @@ function create(place, name, emailid, person, contact, userID) {
  * @param {String} person - the person available 
  * @param {String} contact - the contact info 
  * @param {String} userID - the ID of the user 
- * 
+ * @param {String} datetime - the ID of the user 
  * @return {Promise} - promise that will be resolved (or rejected)
  * when the call to the DB completes
  */
-function update(id, place, name, emailid, person, contact, userID) {
+function update(id, place, name, emailid, person, contact, userID, datetime) {
     return new Promise((resolve, reject) => {
         db.get(id, (err, document) => {
             if (err) {
@@ -209,6 +210,7 @@ function update(id, place, name, emailid, person, contact, userID) {
                 if (person) {item["person"] = person} else {item["person"] = document.person};
                 if (contact) {item["contact"] = contact} else {item["contact"] = document.contact};
                 if (userID) {item["userID"] = userID} else {item["userID"] = document.userID};
+                if (datetime) {item["datetime"] = datetime} else {item["datetime"] = document.datetime};
  
                 db.insert(item, (err, result) => {
                     if (err) {

@@ -167,7 +167,7 @@ app.get('/api/resource', (req, res) => {
  * - contact
  * - userID
  * - datetime
- *
+ * - bookingtime
  * The body may also contain:
  * 
  * - emailid
@@ -190,7 +190,10 @@ app.post('/api/resource', (req, res) => {
     return res.status(422).json({ errors: "A method of conact must be provided"});
   }
   if (!req.body.datetime) {
-    return res.status(422).json({ errors: "Date and Time must be provided"});
+    return res.status(422).json({ errors: "Date must be provided"});
+  }
+  if (!req.body.bookingtime) {
+    return res.status(422).json({ errors: "Timeslot must be provided"});
   }
   const place = req.body.place;
   const name = req.body.name;
@@ -199,9 +202,10 @@ app.post('/api/resource', (req, res) => {
   const person = req.body.person || 1;
   const contact = req.body.contact;
   const datetime = req.body.datetime;
+  const bookingtime = req.body.bookingtime;
 
   cloudant
-    .create(place, name, emailid, person, contact, userID, datetime)
+    .create(place, name, emailid, person, contact, userID, datetime, bookingtime)
     .then(data => {
       if (data.statusCode != 201) {
         res.sendStatus(data.statusCode)
@@ -229,9 +233,10 @@ app.patch('/api/resource/:id', (req, res) => {
   const person = req.body.person || '';
   const contact = req.body.contact || '';
   const datetime = req.body.datetime || '';
+  const bookingtime = req.body.bookingtime || '';
 
   cloudant
-    .update(req.params.id, place, name, emailid, person, contact, userID, datetime)
+    .update(req.params.id, place, name, emailid, person, contact, userID, datetime, bookingtime)
     .then(data => {
       if (data.statusCode != 200) {
         res.sendStatus(data.statusCode)

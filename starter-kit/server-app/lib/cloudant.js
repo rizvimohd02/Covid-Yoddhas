@@ -146,11 +146,12 @@ function deleteById(id, rev) {
  * @param {String} person - the person available 
  * @param {String} contact - the contact info 
  * @param {String} userID - the ID of the user 
- * @param {String} datetime - the ID of the user
+ * @param {String} datetime - the date of booking
+ * @param {String} bookingtime - the timeslot of booking
  * @return {Promise} - promise that will be resolved (or rejected)
  * when the call to the DB completes
  */
-function create(place, name, emailid, person, contact, userID, datetime) {
+function create(place, name, emailid, person, contact, userID, datetime, bookingtime) {
     return new Promise((resolve, reject) => {
         let itemId = uuidv4();
         let whenCreated = Date.now();
@@ -164,6 +165,7 @@ function create(place, name, emailid, person, contact, userID, datetime) {
             contact: contact,
             userID: userID,
             datetime: datetime,
+            bookingtime: bookingtime,
             whenCreated: whenCreated
         };
         db.insert(item, (err, result) => {
@@ -190,11 +192,12 @@ function create(place, name, emailid, person, contact, userID, datetime) {
  * @param {String} person - the person available 
  * @param {String} contact - the contact info 
  * @param {String} userID - the ID of the user 
- * @param {String} datetime - the ID of the user 
+ * @param {String} datetime - the date of booking
+ * @param {String} bookingtime - the timeslot of booking
  * @return {Promise} - promise that will be resolved (or rejected)
  * when the call to the DB completes
  */
-function update(id, place, name, emailid, person, contact, userID, datetime) {
+function update(id, place, name, emailid, person, contact, userID, datetime, bookingtime) {
     return new Promise((resolve, reject) => {
         db.get(id, (err, document) => {
             if (err) {
@@ -211,7 +214,7 @@ function update(id, place, name, emailid, person, contact, userID, datetime) {
                 if (contact) {item["contact"] = contact} else {item["contact"] = document.contact};
                 if (userID) {item["userID"] = userID} else {item["userID"] = document.userID};
                 if (datetime) {item["datetime"] = datetime} else {item["datetime"] = document.datetime};
- 
+                if (bookingtime) {item["bookingtime"] = bookingtime} else {item["bookingtime"] = document.bookingtime};
                 db.insert(item, (err, result) => {
                     if (err) {
                         console.log('Error occurred: ' + err.message, 'create()');

@@ -83,22 +83,26 @@ const dbCloudantConnect = () => {
  *          could be located that matches. 
  *  reject(): the err object from the underlying data store
  */
-function find(place, partialName, userID) {
+function find(place, partialName, userID, trnsctype) {
     return new Promise((resolve, reject) => {
         let selector = {}
-        if (place!=null){
-            if (place) {
 
-                selector['place'] = place;
-            }
-            if (partialName) {
-                let search = `(?i).*${partialName}.*`;
-                selector['name'] = {'$regex': search};
-    
-            }
-            if (userID) {
-                selector['userID'] = userID;
-            }
+        if (place) {
+
+            selector['place'] = place;
+        }
+        if (partialName) {
+            let search = `(?i).*${partialName}.*`;
+            selector['name'] = {'$regex': search};
+
+        }
+        if (userID) {
+            selector['userID'] = userID;
+        }
+
+        if (trnsctype) {
+
+            selector['trnsctype'] = trnsctype;
         }
         
         
@@ -152,10 +156,11 @@ function deleteById(id, rev) {
  * @param {String} userID - the ID of the user 
  * @param {String} datetime - the date of booking
  * @param {String} bookingtime - the timeslot of booking
+ * @param {String} trnsctype - the timeslot of booking
  * @return {Promise} - promise that will be resolved (or rejected)
  * when the call to the DB completes
  */
-function create(place, name, emailid, person, contact, userID, datetime, bookingtime) {
+function create(place, name, emailid, person, contact, userID, datetime, bookingtime, trnsctype) {
     return new Promise((resolve, reject) => {
         let itemId = uuidv4();
         let whenCreated = Date.now();
@@ -170,6 +175,7 @@ function create(place, name, emailid, person, contact, userID, datetime, booking
             userID: userID,
             datetime: datetime,
             bookingtime: bookingtime,
+            trnsctype: trnsctype,
             whenCreated: whenCreated
         };
         db.insert(item, (err, result) => {

@@ -168,6 +168,7 @@ app.get('/api/resource', (req, res) => {
  * - userID
  * - datetime
  * - bookingtime
+ * - trnsctype
  * The body may also contain:
  * 
  * - emailid
@@ -206,9 +207,10 @@ app.post('/api/resource', (req, res) => {
     const contact = req.body.contact;
     const datetime = req.body.datetime;
     const bookingtime = req.body.bookingtime;
+    const trnsctype = req.body.trnsctype;
   
     cloudant
-      .create(place, name, emailid, person, contact, userID, datetime, bookingtime)
+      .create(place, name, emailid, person, contact, userID, datetime, bookingtime, trnsctype)
       .then(data => {
         if (data.statusCode != 201) {
           res.sendStatus(data.statusCode)

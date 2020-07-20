@@ -259,9 +259,10 @@ app.patch('/api/resource/:id', (req, res) => {
   const contact = req.body.contact || '';
   const datetime = req.body.datetime || '';
   const bookingtime = req.body.bookingtime || '';
+  const trnsctype = req.body.trnsctype || '';
 
   cloudant
-    .update(req.params.id, place, name, emailid, person, contact, userID, datetime, bookingtime)
+    .update(req.params.id, place, name, emailid, person, contact, userID, datetime, bookingtime, trnsctype)
     .then(data => {
       if (data.statusCode != 200) {
         res.sendStatus(data.statusCode)

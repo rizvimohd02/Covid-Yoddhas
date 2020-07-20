@@ -160,11 +160,15 @@ function deleteById(id, rev) {
  * @return {Promise} - promise that will be resolved (or rejected)
  * when the call to the DB completes
  */
-function create(place, name, emailid, person, contact, userID, datetime, bookingtime, trnsctype) {
+/*function create(place, name, emailid, person, contact, userID, datetime, bookingtime, trnsctype) {*/
+function create(param) {
     return new Promise((resolve, reject) => {
         let itemId = uuidv4();
         let whenCreated = Date.now();
-        let item = {
+        let item = param;
+        item['_id']=itemId;
+        item['id']=itemId;
+        /*let item = {
             _id: itemId,
             id: itemId,
             place: place,
@@ -177,7 +181,7 @@ function create(place, name, emailid, person, contact, userID, datetime, booking
             bookingtime: bookingtime,
             trnsctype: trnsctype,
             whenCreated: whenCreated
-        };
+        };*/
         db.insert(item, (err, result) => {
             if (err) {
                 console.log('Error occurred: ' + err.message, 'create()');

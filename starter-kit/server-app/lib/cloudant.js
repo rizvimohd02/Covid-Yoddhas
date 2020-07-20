@@ -179,6 +179,45 @@ function create(place, name, emailid, person, contact, userID, datetime, booking
     });
 }
 
+// MR: New code
+/**
+ * Create a resource with the specified attributes
+ * 
+ * @param {String} businessname - the place of the item
+ * @param {String} openingtime - the name of the item
+ * @param {String} closingtime - the emailid of the item
+ * @param {String} personallowed - the person available
+ * @param {String} userID - the ID of the user 
+ * @return {Promise} - promise that will be resolved (or rejected)
+ * when the call to the DB completes
+ */
+function createB(businessname, openingtime, closingtime, personallowed, userID) {
+    return new Promise((resolve, reject) => {
+        let itemId = uuidv4();
+        let whenCreated = Date.now();
+        let item = {
+            _id: itemId,
+            id: itemId,
+            businessname: businessname,
+            openingtime: openingtime,
+            closingtime: closingtime,
+            personallowed: personallowed,
+            userID: userID,
+            whenCreated: whenCreated
+        };
+        db.insert(item, (err, result) => {
+            if (err) {
+                console.log('Error occurred: ' + err.message, 'create()');
+                reject(err);
+            } else {
+                resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
+            }
+        });
+    });
+}
+
+//
+
 /**
  * Update a resource with the requested new attribute values
  * 
@@ -239,6 +278,7 @@ function info() {
 module.exports = {
     deleteById: deleteById,
     create: create,
+    createB: createB,
     update: update,
     find: find,
     info: info

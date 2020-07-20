@@ -86,17 +86,21 @@ const dbCloudantConnect = () => {
 function find(place, partialName, userID) {
     return new Promise((resolve, reject) => {
         let selector = {}
-        if (place) {
-            selector['place'] = place;
-        }
-        if (partialName) {
-            let search = `(?i).*${partialName}.*`;
-            selector['name'] = {'$regex': search};
+        if (place!=null){
+            if (place) {
 
+                selector['place'] = place;
+            }
+            if (partialName) {
+                let search = `(?i).*${partialName}.*`;
+                selector['name'] = {'$regex': search};
+    
+            }
+            if (userID) {
+                selector['userID'] = userID;
+            }
         }
-        if (userID) {
-            selector['userID'] = userID;
-        }
+        
         
         db.find({ 
             'selector': selector

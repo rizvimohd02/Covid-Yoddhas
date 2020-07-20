@@ -177,35 +177,57 @@ app.get('/api/resource', (req, res) => {
  */
 //let places = ["Food", "Other", "Help"]
 app.post('/api/resource', (req, res) => {
-  if (!req.body.place) {
-    return res.status(422).json({ errors: "Type of item must be provided"});
-  }
- // if (!places.includes(req.body.place)) {
- //   return res.status(422).json({ errors: "Type of item must be one of " + places.toString()});
-  //}
-  if (!req.body.name) {
-    return res.status(422).json({ errors: "Name of item must be provided"});
-  }
-  if (!req.body.contact) {
-    return res.status(422).json({ errors: "A method of conact must be provided"});
-  }
-  if (!req.body.datetime) {
-    return res.status(422).json({ errors: "Date must be provided"});
-  }
-  if (!req.body.bookingtime) {
-    return res.status(422).json({ errors: "Timeslot must be provided"});
-  }
-  const place = req.body.place;
-  const name = req.body.name;
-  const emailid = req.body.emailid || '';
-  const userID = req.body.userID || '';
-  const person = req.body.person || 1;
-  const contact = req.body.contact;
-  const datetime = req.body.datetime;
-  const bookingtime = req.body.bookingtime;
 
+  if (!req.body.businessname){
+
+    if (!req.body.place) {
+      return res.status(422).json({ errors: "Type of item must be provided"});
+    }
+   // if (!places.includes(req.body.place)) {
+   //   return res.status(422).json({ errors: "Type of item must be one of " + places.toString()});
+    //}
+    if (!req.body.name) {
+      return res.status(422).json({ errors: "Name of item must be provided"});
+    }
+    if (!req.body.contact) {
+      return res.status(422).json({ errors: "A method of conact must be provided"});
+    }
+    if (!req.body.datetime) {
+      return res.status(422).json({ errors: "Date must be provided"});
+    }
+    if (!req.body.bookingtime) {
+      return res.status(422).json({ errors: "Timeslot must be provided"});
+    }
+    const place = req.body.place;
+    const name = req.body.name;
+    const emailid = req.body.emailid || '';
+    const userID = req.body.userID || '';
+    const person = req.body.person || 1;
+    const contact = req.body.contact;
+    const datetime = req.body.datetime;
+    const bookingtime = req.body.bookingtime;
+  
+    cloudant
+      .create(place, name, emailid, person, contact, userID, datetime, bookingtime)
+      .then(data => {
+        if (data.statusCode != 201) {
+          res.sendStatus(data.statusCode)
+        } else {
+          res.send(data.data)
+        }
+      })
+      .catch(err => handleError(res, err));
+
+  } else {
+  
+  const businessname = req.body.businessname;
+  const openingtime = req.body.openingtime;
+  const closingtime = req.body.closingtime || '';
+  const userID = req.body.userID || '';
+  const personallowed = req.body.personallowed || 1;
+  
   cloudant
-    .create(place, name, emailid, person, contact, userID, datetime, bookingtime)
+    .createB(businessname, openingtime, closingtime, personallowed, userID)
     .then(data => {
       if (data.statusCode != 201) {
         res.sendStatus(data.statusCode)
@@ -214,6 +236,7 @@ app.post('/api/resource', (req, res) => {
       }
     })
     .catch(err => handleError(res, err));
+  }
 });
 
 /**

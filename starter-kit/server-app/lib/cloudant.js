@@ -243,10 +243,11 @@ function createB(businessname, openingtime, closingtime, personallowed, userID) 
  * @param {String} userID - the ID of the user 
  * @param {String} datetime - the date of booking
  * @param {String} bookingtime - the timeslot of booking
+ * @param {String} trnsctype - the timeslot of booking
  * @return {Promise} - promise that will be resolved (or rejected)
  * when the call to the DB completes
  */
-function update(id, place, name, emailid, person, contact, userID, datetime, bookingtime) {
+function update(id, place, name, emailid, person, contact, userID, datetime, bookingtime, trnsctype) {
     return new Promise((resolve, reject) => {
         db.get(id, (err, document) => {
             if (err) {
@@ -264,6 +265,8 @@ function update(id, place, name, emailid, person, contact, userID, datetime, boo
                 if (userID) {item["userID"] = userID} else {item["userID"] = document.userID};
                 if (datetime) {item["datetime"] = datetime} else {item["datetime"] = document.datetime};
                 if (bookingtime) {item["bookingtime"] = bookingtime} else {item["bookingtime"] = document.bookingtime};
+                if (trnsctype) {item["trnsctype"] = trnsctype} else {item["trnsctype"] = document.trnsctype};
+                
                 db.insert(item, (err, result) => {
                     if (err) {
                         console.log('Error occurred: ' + err.message, 'create()');

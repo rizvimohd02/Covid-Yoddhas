@@ -6,7 +6,8 @@ let serverUrl = Config.STARTER_KIT_SERVER_URL;
 if (serverUrl.endsWith('/')) {
   serverUrl = serverUrl.slice(0, -1)
 }
-// const serverUrl = 'http://localhost:3000';
+
+//const serverUrl = 'http://localhost:3000';
 
 const uniqueid = DeviceInfo.getUniqueId();
 
@@ -15,11 +16,11 @@ export const userID = () => {
 }
 
 export const search = (query) => {
-  const type = query.type ? `type=${query.type}` : ''
+  const place = query.place ? `place=${query.place}` : ''
   const name = query.name ? `name=${query.name}` : ''
   const userID = query.userID ? `userID=${query.userID}` : ''
 
-  return fetch(`${serverUrl}/api/resource?${name}&${type}&${userID}`, {
+  return fetch(`${serverUrl}/api/resource?${name}&${place}&${userID}`, {
     method: 'GET',
     mode: 'no-cors',
     cache: 'no-cache',
@@ -36,6 +37,7 @@ export const search = (query) => {
 };
 
 export const add = (item) => {
+  console.log(item);
   return fetch(`${serverUrl}/api/resource`, {
     method: 'POST',
     mode: 'no-cors',
@@ -52,6 +54,27 @@ export const add = (item) => {
     }
   });
 };
+
+//MR: New code
+
+export const addB = (item) => {
+  return fetch(`${serverUrl}/api/resource`, {
+    method: 'POST',
+    mode: 'no-cors',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(item)
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error(response.statusText || response.message || response.status);
+    } else {
+      return response.json();
+    }
+  });
+};
+//
 
 export const update = (item) => {
   return fetch(`${serverUrl}/api/resource/${item.id}`, {

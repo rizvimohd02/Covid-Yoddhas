@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import {StyleSheet, View, Image, Text} from 'react-native';
 
 const styles = StyleSheet.create({
   center: {

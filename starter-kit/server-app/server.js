@@ -210,8 +210,7 @@ app.post('/api/resource', (req, res) => {
     const trnsctype = req.body.trnsctype;
   
     cloudant
-      //.create(place, name, emailid, person, contact, userID, datetime, bookingtime, trnsctype)
-      .create(req.body)
+      .create(place, name, emailid, person, contact, userID, datetime, bookingtime, trnsctype)
       .then(data => {
         if (data.statusCode != 201) {
           res.sendStatus(data.statusCode)

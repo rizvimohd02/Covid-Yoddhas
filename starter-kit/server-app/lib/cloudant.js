@@ -87,19 +87,21 @@ function find(place, partialName, userID, trnsctype) {
     return new Promise((resolve, reject) => {
         let selector = {}
 
-        if (place) {
+        if (trnsctype!=null){
+            if (place) {
 
-            selector['place'] = place;
+                selector['place'] = place;
+            }
+            if (partialName) {
+                let search = `(?i).*${partialName}.*`;
+                selector['name'] = {'$regex': search};
+    
+            }
+            if (userID ) {
+                selector['userID'] = userID;
+            }
         }
-        if (partialName) {
-            let search = `(?i).*${partialName}.*`;
-            selector['name'] = {'$regex': search};
-
-        }
-        if (userID && trnsctype ) {
-            selector['userID'] = userID;
-            selector['trnsctype'] = trnsctype;
-        }
+        
 
         // if (trnsctype) {
 

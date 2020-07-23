@@ -87,7 +87,7 @@ function find(place, partialName, userID, trnsctype) {
     return new Promise((resolve, reject) => {
         let selector = {}
 
-        if (trnsctype!=null){
+        
             if (place) {
 
                 selector['place'] = place;
@@ -99,14 +99,11 @@ function find(place, partialName, userID, trnsctype) {
             }
             if (userID ) {
                 selector['userID'] = userID;
-            }
-        }
-        
+            }        
 
-        // if (trnsctype) {
-
-        //     selector['trnsctype'] = trnsctype;
-        // }
+         if (trnsctype) {
+        selector['trnsctype'] = trnsctype;
+         }
         
         
         db.find({ 

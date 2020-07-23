@@ -96,14 +96,15 @@ function find(place, partialName, userID, trnsctype) {
             selector['name'] = {'$regex': search};
 
         }
-        if (userID) {
+        if (userID && trnsctype ) {
             selector['userID'] = userID;
-        }
-
-        if (trnsctype) {
-
             selector['trnsctype'] = trnsctype;
         }
+
+        // if (trnsctype) {
+
+        //     selector['trnsctype'] = trnsctype;
+        // }
         
         
         db.find({ 

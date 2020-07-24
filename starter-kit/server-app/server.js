@@ -229,7 +229,7 @@ app.post('/api/resource', (req, res) => {
   const location = req.body.location || '';
   
   cloudant
-    .createB(businessname, openingtime, closingtime, personallowed, userID, isBookingMand, location)
+    .createB(businessname, openingtime, closingtime, personallowed, isBookingMand, location, userID)
     .then(data => {
       if (data.statusCode != 201) {
         res.sendStatus(data.statusCode)

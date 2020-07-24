@@ -86,7 +86,6 @@ const dbCloudantConnect = () => {
 function find(place, partialName, userID, trnsctype) {
     return new Promise((resolve, reject) => {
         let selector = {}
-
         
             if (place) {
 
@@ -189,7 +188,6 @@ function create(place, name, emailid, person, contact, userID, datetime, booking
     });
 }
 
-// MR: New code
 /**
  * Create a resource with the specified attributes
  * 
@@ -197,11 +195,13 @@ function create(place, name, emailid, person, contact, userID, datetime, booking
  * @param {String} openingtime - the name of the item
  * @param {String} closingtime - the emailid of the item
  * @param {String} personallowed - the person available
+ * @param {String} isBookingMand - whether the booking is mandatory or not before the visit
+ * @param {String} location - the GPS location
  * @param {String} userID - the ID of the user 
  * @return {Promise} - promise that will be resolved (or rejected)
  * when the call to the DB completes
  */
-function createB(businessname, openingtime, closingtime, personallowed, userID) {
+function createB(businessname, openingtime, closingtime, personallowed, isBookingMand, location, userID) {
     return new Promise((resolve, reject) => {
         let itemId = uuidv4();
         let whenCreated = Date.now();
@@ -212,6 +212,8 @@ function createB(businessname, openingtime, closingtime, personallowed, userID) 
             openingtime: openingtime,
             closingtime: closingtime,
             personallowed: personallowed,
+            isBookingMand: isBookingMand,
+            location: location,
             userID: userID,
             whenCreated: whenCreated
         };

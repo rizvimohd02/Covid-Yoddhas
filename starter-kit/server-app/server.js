@@ -185,9 +185,6 @@ app.post('/api/resource', (req, res) => {
     if (!req.body.place) {
       return res.status(422).json({ errors: "Type of item must be provided"});
     }
-   // if (!places.includes(req.body.place)) {
-   //   return res.status(422).json({ errors: "Type of item must be one of " + places.toString()});
-    //}
     if (!req.body.name) {
       return res.status(422).json({ errors: "Name of item must be provided"});
     }
@@ -228,9 +225,11 @@ app.post('/api/resource', (req, res) => {
   const closingtime = req.body.closingtime || '';
   const userID = req.body.userID || '';
   const personallowed = req.body.personallowed || 1;
+  const isBookingMand = req.body.isBookingMand;
+  const location = req.body.location || '';
   
   cloudant
-    .createB(businessname, openingtime, closingtime, personallowed, userID)
+    .createB(businessname, openingtime, closingtime, personallowed, userID, isBookingMand, location)
     .then(data => {
       if (data.statusCode != 201) {
         res.sendStatus(data.statusCode)

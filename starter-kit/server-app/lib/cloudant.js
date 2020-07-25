@@ -117,6 +117,35 @@ function find(place, partialName, userID, trnsctype) {
     });
 }
 
+function findStaff(staffName, userID, trnsctype) {
+    return new Promise((resolve, reject) => {
+        let selector = {}
+        
+            if (staffName) {
+                let search = `(?i).*${staffName}.*`;
+                selector['staffName'] = {'$regex': search};
+    
+            }
+            if (userID ) {
+                selector['userID'] = userID;
+            }        
+
+         if (trnsctype) {
+        selector['trnsctype'] = trnsctype;
+         }
+        
+        db.find({ 
+            'selector': selector
+        }, (err, documents) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({ data: JSON.stringify(documents.docs), statusCode: 200});
+            }
+        });
+    });
+}
+
 /**
  * Delete a resource that matches a ID.
  * 
@@ -330,6 +359,8 @@ module.exports = {
     deleteById: deleteById,
     create: create,
     createB: createB,
+    createStaff: createStaff,
+    findStaff: findStaff,
     update: update,
     find: find,
     info: info

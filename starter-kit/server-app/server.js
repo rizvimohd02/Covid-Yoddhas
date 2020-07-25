@@ -180,7 +180,7 @@ app.get('/api/resource', (req, res) => {
 //let places = ["Food", "Other", "Help"]
 app.post('/api/resource', (req, res) => {
 
-  if (!req.body.businessname){
+  if (req.body.name){
 
     if (!req.body.place) {
       return res.status(422).json({ errors: "Type of item must be provided"});
@@ -218,7 +218,7 @@ app.post('/api/resource', (req, res) => {
       })
       .catch(err => handleError(res, err));
 
-  } else {
+  } else if (req.body.businessname) {
   
   const businessname = req.body.businessname;
   const openingtime = req.body.openingtime;
@@ -238,7 +238,29 @@ app.post('/api/resource', (req, res) => {
       }
     })
     .catch(err => handleError(res, err));
+
+  } else if (req.body.staffName){
+
+    const staffName = req.body.staffName;
+    const staffEmailid = req.body.staffEmailid;
+    const staffContact = req.body.staffContact;
+    const staffDepartment = req.body.staffDepartment || '';
+    const trnsctype = req.body.trnsctype;
+    const userID = req.body.userID || '';
+    
+    cloudant
+      .createStaff(staffName, staffEmailid, staffContact, staffDepartment, trnsctype, userID)
+      .then(data => {
+        if (data.statusCode != 201) {
+          res.sendStatus(data.statusCode)
+        } else {
+          res.send(data.data)
+        }
+      })
+      .catch(err => handleError(res, err));
+
   }
+
 });
 
 /**

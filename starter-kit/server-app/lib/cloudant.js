@@ -145,7 +145,7 @@ function deleteById(id, rev) {
 }
 
 /**
- * Create a resource with the specified attributes
+ * Create Booking with the specified attributes
  * 
  * @param {String} place - the place of the item
  * @param {String} name - the name of the item
@@ -155,7 +155,7 @@ function deleteById(id, rev) {
  * @param {String} userID - the ID of the user 
  * @param {String} datetime - the date of booking
  * @param {String} bookingtime - the timeslot of booking
- * @param {String} trnsctype - the timeslot of booking
+ * @param {String} trnsctype - Transaction type which is hard coded as 'customerBooking' for bookings
  * @return {Promise} - promise that will be resolved (or rejected)
  * when the call to the DB completes
  */
@@ -189,7 +189,7 @@ function create(place, name, emailid, person, contact, userID, datetime, booking
 }
 
 /**
- * Create a resource with the specified attributes
+ * Create a Business Entry with the specified attributes
  * 
  * @param {String} businessname - the place of the item
  * @param {String} openingtime - the name of the item
@@ -228,7 +228,43 @@ function createB(businessname, openingtime, closingtime, personallowed, isBookin
     });
 }
 
-//
+/**
+ * Create a Staff Entry with the specified attributes
+ * 
+ * @param {String} staffName - the place of the item
+ * @param {String} staffEmailid - the name of the item
+ * @param {String} staffContact - the emailid of the item
+ * @param {String} staffDepartment - the person available
+ * @param {String} userID - the ID of the user
+ * @param {String} trnsctype - Transaction type which is hard coded as 'StaffDetails' for bookings
+ * @return {Promise} - promise that will be resolved (or rejected)
+ * when the call to the DB completes
+ */
+function createStaff(staffName, staffEmailid, staffContact, staffDepartment, trnsctype, userID) {
+    return new Promise((resolve, reject) => {
+        let itemId = uuidv4();
+        let whenCreated = Date.now();
+        let item = {
+            _id: itemId,
+            id: itemId,
+            staffName: staffName,
+            staffEmailid: staffEmailid,
+            staffContact: staffContact,
+            staffDepartment: staffDepartment,
+            trnsctype: trnsctype,
+            userID: userID,
+            whenCreated: whenCreated
+        };
+        db.insert(item, (err, result) => {
+            if (err) {
+                console.log('Error occurred: ' + err.message, 'create()');
+                reject(err);
+            } else {
+                resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
+            }
+        });
+    });
+}
 
 /**
  * Update a resource with the requested new attribute values

@@ -227,10 +227,11 @@ function create(place, name, emailid, person, contact, userID, datetime, booking
  * @param {String} isBookingMand - whether the booking is mandatory or not before the visit
  * @param {String} location - the GPS location
  * @param {String} userID - the ID of the user 
+ * @param {String} trnsctype - Transaction type which is hard coded as 'BusinessRegistration' for bookings
  * @return {Promise} - promise that will be resolved (or rejected)
  * when the call to the DB completes
  */
-function createB(businessname, openingtime, closingtime, personallowed, isBookingMand, location, userID) {
+function createB(businessname, openingtime, closingtime, personallowed, isBookingMand, location, trnsctype, userID) {
     return new Promise((resolve, reject) => {
         let itemId = uuidv4();
         let whenCreated = Date.now();
@@ -243,6 +244,7 @@ function createB(businessname, openingtime, closingtime, personallowed, isBookin
             personallowed: personallowed,
             isBookingMand: isBookingMand,
             location: location,
+            trnsctype: trnsctype,
             userID: userID,
             whenCreated: whenCreated
         };
@@ -286,7 +288,7 @@ function createStaff(staffName, staffEmailid, staffContact, staffDepartment, trn
         };
         db.insert(item, (err, result) => {
             if (err) {
-                console.log('Error occurred: ' + err.message, 'create()');
+                console.log('=================================Error occurred: ' + err.message, 'create()');
                 reject(err);
             } else {
                 resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });

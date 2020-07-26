@@ -159,7 +159,9 @@ app.get('/api/resource', (req, res) => {
       })
       .catch(err => handleError(res, err));
 
-  } elseif (req.body.trnsctype == 'StaffDetails'); {
+  }  
+  
+  if (req.body.trnsctype == 'StaffDetails') {
 
     const staffName = req.query.staffName;
     const userID = req.query.userID;

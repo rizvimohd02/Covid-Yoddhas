@@ -143,7 +143,7 @@ app.post('/api/message', (req, res) => {
  */
 app.get('/api/resource', (req, res) => {
 
-  //if (req.body.trnsctype == 'customerBooking'){
+  if (req.body.trnsctype == 'customerBooking'){
     const place = req.query.place;
     const name = req.query.name;
     const userID = req.query.userID;
@@ -159,24 +159,24 @@ app.get('/api/resource', (req, res) => {
       })
       .catch(err => handleError(res, err));
 
- // }  
+  }  
   
-  // if (req.body.trnsctype == 'StaffDetails') {
+  if (req.body.trnsctype == 'StaffDetails') {
 
-  //   const staffName = req.query.staffName;
-  //   const userID = req.query.userID;
-  //   const trnsctype = req.query.trnsctype;
-  //   cloudant
-  //     .findStaff(staffName, userID, trnsctype)
-  //     .then(data => {
-  //       if (data.statusCode != 200) {
-  //         res.sendStatus(data.statusCode)
-  //       } else {
-  //         res.send(data.data)
-  //       }
-  //     })
-  //     .catch(err => handleError(res, err));
-  // }
+    const staffName = req.query.staffName;
+    const userID = req.query.userID;
+    const trnsctype = req.query.trnsctype;
+    cloudant
+      .findStaff(staffName, userID, trnsctype)
+      .then(data => {
+        if (data.statusCode != 200) {
+          res.sendStatus(data.statusCode)
+        } else {
+          res.send(data.data)
+        }
+      })
+      .catch(err => handleError(res, err));
+  }
 
 });
 

@@ -159,8 +159,8 @@ app.get('/api/resource', (req, res) => {
       })
       .catch(err => handleError(res, err));
 
-  } else {
-//(req.body.trnsctype == 'StaffDetails')
+  } else if (req.body.trnsctype == 'StaffDetails') {
+
     const staffName = req.query.staffName;
     const userID = req.query.userID;
     const trnsctype = req.query.trnsctype;
@@ -247,9 +247,10 @@ app.post('/api/resource', (req, res) => {
   const personallowed = req.body.personallowed || 1;
   const isBookingMand = req.body.isBookingMand;
   const location = req.body.location || '';
-  
+  const trnsctype = req.body.trnsctype;
+
   cloudant
-    .createB(businessname, openingtime, closingtime, personallowed, isBookingMand, location, userID)
+    .createB(businessname, openingtime, closingtime, personallowed, isBookingMand, location, trnsctype, userID)
     .then(data => {
       if (data.statusCode != 201) {
         res.sendStatus(data.statusCode)

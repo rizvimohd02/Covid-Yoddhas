@@ -100,8 +100,8 @@ function find(place, partialName, userID, trnsctype) {
                 selector['userID'] = userID;
             }        
 
-         if (trnsctype) {
-        selector['trnsctype'] = trnsctype;
+             if (trnsctype) {
+            selector['trnsctype'] = trnsctype;
          }
         
         
@@ -117,34 +117,34 @@ function find(place, partialName, userID, trnsctype) {
     });
 }
 
-function findStaff(staffName, userID, trnsctype) {
-    return new Promise((resolve, reject) => {
-        let selector = {}
+// function findStaff(staffName, userID, trnsctype) {
+//     return new Promise((resolve, reject) => {
+//         let selector = {}
         
-            if (staffName) {
-                let search = `(?i).*${staffName}.*`;
-                selector['staffName'] = {'$regex': search};
+//             if (staffName) {
+//                 let search = `(?i).*${staffName}.*`;
+//                 selector['staffName'] = {'$regex': search};
     
-            }
-            if (userID ) {
-                selector['userID'] = userID;
-            }        
+//             }
+//             if (userID ) {
+//                 selector['userID'] = userID;
+//             }        
 
-         if (trnsctype) {
-        selector['trnsctype'] = trnsctype;
-         }
+//          if (trnsctype) {
+//         selector['trnsctype'] = trnsctype;
+//          }
         
-        db.find({ 
-            'selector': selector
-        }, (err, documents) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve({ data: JSON.stringify(documents.docs), statusCode: 200});
-            }
-        });
-    });
-}
+//         db.find({ 
+//             'selector': selector
+//         }, (err, documents) => {
+//             if (err) {
+//                 reject(err);
+//             } else {
+//                 resolve({ data: JSON.stringify(documents.docs), statusCode: 200});
+//             }
+//         });
+//     });
+// }
 
 /**
  * Delete a resource that matches a ID.

@@ -260,7 +260,45 @@ function createStaff(staffName, staffEmailid, staffContact, staffDepartment, trn
         };
         db.insert(item, (err, result) => {
             if (err) {
-                console.log('=================================Error occurred: ' + err.message, 'create()');
+                console.log('==Error occurred: ' + err.message, 'create()');
+                reject(err);
+            } else {
+                resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
+            }
+        });
+    });
+}
+
+/**
+ * Create a Walk-in details Entry with the specified attributes
+ * 
+ * @param {String} walkinbusinessname - Business Name
+ * @param {String} walkinDate - Date
+ * @param {String} walkinTimeSlot - time slot
+ * @param {String} walkinCount - the current persons count
+ * @param {String} userID - the ID of the user
+ * @param {String} trnsctype - Transaction type which is hard coded as 'StaffDetails' for bookings
+ * @return {Promise} - promise that will be resolved (or rejected)
+ * when the call to the DB completes
+ */
+function createWalkinDetails(walkinbusinessname, walkinDate, walkinTimeSlot, walkinCount, trnsctype, userID) {
+    return new Promise((resolve, reject) => {
+        let itemId = uuidv4();
+        let whenCreated = Date.now();
+        let item = {
+            _id: itemId,
+            id: itemId,
+            walkinbusinessname: walkinbusinessname,
+            walkinDate: walkinDate,
+            walkinTimeSlot: walkinTimeSlot,
+            walkinCount: walkinCount,
+            trnsctype: trnsctype,
+            userID: userID,
+            whenCreated: whenCreated
+        };
+        db.insert(item, (err, result) => {
+            if (err) {
+                console.log('==Error occurred: ' + err.message, 'create()');
                 reject(err);
             } else {
                 resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
@@ -334,6 +372,7 @@ module.exports = {
     create: create,
     createB: createB,
     createStaff: createStaff,
+    createWalkinDetails: createWalkinDetails,
     update: update,
     find: find,
     info: info

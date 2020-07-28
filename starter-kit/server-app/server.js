@@ -266,7 +266,7 @@ app.post('/api/resource', (req, res) => {
     const walkinbusinessname = req.body.walkinbusinessname;
     const walkinDate = req.body.walkinDate;
     const walkinTimeSlot = req.body.walkinTimeSlot;
-    const walkinCount = req.body.staffDepartment || '';
+    const walkinCount = req.body.walkinCount;
     const trnsctype = req.body.trnsctype;
     const userID = req.body.userID || '';
     

@@ -334,7 +334,6 @@ module.exports = {
     create: create,
     createB: createB,
     createStaff: createStaff,
-    findStaff: findStaff,
     update: update,
     find: find,
     info: info

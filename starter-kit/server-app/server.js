@@ -261,6 +261,26 @@ app.post('/api/resource', (req, res) => {
       })
       .catch(err => handleError(res, err));
 
+  } else {
+
+    const walkinbusinessname = req.body.walkinbusinessname;
+    const walkinDate = req.body.walkinDate;
+    const walkinTimeSlot = req.body.walkinTimeSlot;
+    const walkinCount = req.body.staffDepartment || '';
+    const trnsctype = req.body.trnsctype;
+    const userID = req.body.userID || '';
+    
+    cloudant
+      .createWalkinDetails(walkinbusinessname, walkinDate, walkinTimeSlot, walkinCount, trnsctype, userID)
+      .then(data => {
+        if (data.statusCode != 201) {
+          res.sendStatus(data.statusCode)
+        } else {
+          res.send(data.data)
+        }
+      })
+      .catch(err => handleError(res, err));
+
   }
 
 });

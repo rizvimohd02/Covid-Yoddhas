@@ -83,7 +83,7 @@ const dbCloudantConnect = () => {
  *          could be located that matches. 
  *  reject(): the err object from the underlying data store
  */
-function find(place, partialName, userID, trnsctype) {
+function find(place, partialName, userID, trnsctype, isBookMand) {
     return new Promise((resolve, reject) => {
         let selector = {}
         
@@ -103,6 +103,10 @@ function find(place, partialName, userID, trnsctype) {
          if (trnsctype) {
         selector['trnsctype'] = trnsctype;
          }
+
+         if (isBookMand) {
+            selector['isBookMand'] = isBookMand;
+             }
         
         
         db.find({ 

@@ -147,9 +147,9 @@ app.get('/api/resource', (req, res) => {
     const name = req.query.name;
     const userID = req.query.userID;
     const trnsctype = req.query.trnsctype;
-    const isBookMand = req.query.isBookMand;
+    const isBookingMand = req.query.isBookingMand;
     cloudant
-      .find(place, name, userID, trnsctype, isBookMand)
+      .find(place, name, userID, trnsctype, isBookingMand)
       .then(data => {
         if (data.statusCode != 200) {
           res.sendStatus(data.statusCode)
